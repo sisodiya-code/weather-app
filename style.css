@@ -1,0 +1,309 @@
+/* =========================================================
+   Weather App – Styles
+   Sections: 1. Variables  2. Base  3. Search  4. Status
+             5. Cards      6. Responsive  7. Accessibility
+   ========================================================= */
+
+/* ---------- 1. Design tokens (colors, fonts, radius) ---------- */
+:root {
+  --ink: #12263a;          /* main text */
+  --ink-soft: #5b7a93;     /* secondary text */
+  --sky-top: #bfe3f5;      /* background gradient start */
+  --sky-bottom: #f4ecd8;   /* background gradient end */
+  --card: rgba(255, 255, 255, 0.78);
+  --sun: #f2a93b;          /* accent color */
+  --sun-dark: #d98a14;
+  --danger: #b3261e;
+  --danger-bg: #fdecea;
+
+  --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+
+  --radius-lg: 28px;
+  --radius-md: 18px;
+}
+
+/* ---------- 2. Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 48px 16px;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--sky-top), var(--sky-bottom)) fixed;
+}
+
+.app {
+  width: 100%;
+  max-width: 460px;
+}
+
+.app__title {
+  margin: 0 0 20px;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* ---------- 3. Search bar ---------- */
+.search {
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  background: var(--card);
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(18, 38, 58, 0.08);
+}
+
+.search__input {
+  flex: 1;
+  min-width: 0;                 /* lets the input shrink on small screens */
+  padding: 12px 18px;
+  font: inherit;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+}
+
+.search__input:focus {
+  outline: none;
+}
+
+.search:focus-within {
+  box-shadow: 0 0 0 3px var(--sun), 0 6px 20px rgba(18, 38, 58, 0.08);
+}
+
+.search__button {
+  padding: 12px 24px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--sun);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.search__button:hover {
+  background: var(--sun-dark);
+  transform: translateY(-1px);
+}
+
+.search__button:active {
+  transform: translateY(0);
+}
+
+.search__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------- 4. Loading + error messages ---------- */
+.status {
+  margin-top: 16px;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink-soft);
+}
+
+.loader__spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid rgba(18, 38, 58, 0.15);
+  border-top-color: var(--sun-dark);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error {
+  margin: 0;
+  padding: 14px 18px;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-left: 4px solid var(--danger);
+  border-radius: 12px;
+}
+
+/* The `hidden` attribute must win over any display rule above */
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- 5. Cards ---------- */
+.weather {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 24px rgba(18, 38, 58, 0.08);
+  backdrop-filter: blur(8px);
+  /* Smooth hover transition for every card */
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px rgba(18, 38, 58, 0.16);
+}
+
+/* Main card */
+.card--main {
+  padding: 28px;
+  text-align: center;
+}
+
+.card__city {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+}
+
+.card__summary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.card__icon {
+  width: 120px;
+  height: 120px;
+  transition: transform 0.3s ease;
+}
+
+.card--main:hover .card__icon {
+  transform: scale(1.1) rotate(-4deg);
+}
+
+.card__temp {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 4.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.card__temp sup {
+  font-size: 1.6rem;
+  font-weight: 500;
+  vertical-align: top;
+  position: relative;
+  top: 0.4em;
+}
+
+.card__condition {
+  margin: 4px 0 0;
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  text-transform: capitalize;
+}
+
+/* Stat cards (humidity + wind) */
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.card--stat {
+  padding: 20px;
+  border-radius: var(--radius-md);
+}
+
+.card__label {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.card__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.card__value small {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+/* ---------- 6. Responsive ---------- */
+@media (max-width: 420px) {
+  body {
+    padding: 28px 12px;
+  }
+
+  .card__temp {
+    font-size: 3.5rem;
+  }
+
+  .card__icon {
+    width: 96px;
+    height: 96px;
+  }
+
+  .search__button {
+    padding: 12px 18px;
+  }
+}
+
+/* Larger screens get a little more breathing room */
+@media (min-width: 768px) {
+  body {
+    padding-top: 80px;
+  }
+
+  .app {
+    max-width: 520px;
+  }
+}
+
+/* ---------- 7. Accessibility ---------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.search__button:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation-duration: 0.01ms !important;
+  }
+}

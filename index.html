@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather App</title>
+
+  <!-- Google Fonts (optional - the app still works without internet fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <h1 class="app__title">Weather</h1>
+
+    <!-- ===== Search ===== -->
+    <form class="search" id="search-form" autocomplete="off">
+      <label class="visually-hidden" for="city-input">City name</label>
+      <input
+        type="text"
+        id="city-input"
+        class="search__input"
+        placeholder="Search a city, e.g. Chennai"
+        required
+      />
+      <button type="submit" class="search__button" id="search-button">Search</button>
+    </form>
+
+    <!-- ===== Status area: loading + error messages ===== -->
+    <div class="status" aria-live="polite">
+      <!-- Loading indicator (hidden until we fetch data) -->
+      <div class="loader" id="loader" hidden>
+        <span class="loader__spinner"></span>
+        <span>Fetching weather…</span>
+      </div>
+
+      <!-- Error message (hidden until something goes wrong) -->
+      <p class="error" id="error-message" hidden></p>
+    </div>
+
+    <!-- ===== Weather results (hidden until we have data) ===== -->
+    <section class="weather" id="weather" hidden>
+      <!-- Main card: city, icon, temperature, condition -->
+      <article class="card card--main">
+        <h2 class="card__city" id="city-name"></h2>
+
+        <div class="card__summary">
+          <img class="card__icon" id="weather-icon" alt="" width="120" height="120" />
+          <p class="card__temp"><span id="temperature">--</span><sup>°C</sup></p>
+        </div>
+
+        <p class="card__condition" id="condition"></p>
+      </article>
+
+      <!-- Small cards: humidity and wind -->
+      <div class="stats">
+        <article class="card card--stat">
+          <h3 class="card__label">Humidity</h3>
+          <p class="card__value"><span id="humidity">--</span>%</p>
+        </article>
+
+        <article class="card card--stat">
+          <h3 class="card__label">Wind speed</h3>
+          <p class="card__value"><span id="wind">--</span> <small>km/h</small></p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
